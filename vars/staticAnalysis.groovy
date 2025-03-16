@@ -29,7 +29,7 @@ def abortPipelineIfRequired(String branchName, boolean abortPipeline) {
     if (abortPipeline) {
         error 'Pipeline aborted due to QualityGate failure.'
     } else {
-        if (branchName == 'master' || branchName.startsWith('hotfix')) {
+        if (branchName == 'main' || branchName.startsWith('hotfix')) {
             error 'Pipeline aborted due to QualityGate failure on critical branch.'
         }
     }
