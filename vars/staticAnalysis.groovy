@@ -4,7 +4,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
         withSonarQubeEnv('Sonar Local') {
             bat "${scannerHome}/bin/sonar-scanner"
         }
-        timeout(time: 10, unit: 'MINUTES') {
+        timeout(time: 1, unit: 'MINUTES') {
             waitForQualityGate abortPipeline: true
         }
     } catch (err) {
