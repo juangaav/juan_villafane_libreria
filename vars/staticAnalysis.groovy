@@ -9,6 +9,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     
     // Mostrar el nombre de la rama para depuración
     echo "Nombre de la rama: ${currentBranchName}"
+    echo "Current Git Branch: ${env.GIT_BRANCH}"
     
     try {
         timeout(time: 5, unit: 'MINUTES') {
