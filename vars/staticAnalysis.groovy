@@ -1,42 +1,41 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
-    echo "Ejecutando staticAnalysis"
-
+    echo "Ejecutando staticAnalysis.groovy"
+    
     // Obtener el nombre de la rama actual desde el entorno de Jenkins o manualmente
-    def branchName = env.BRANCH_NAME
-    if (!branchName) {
-        branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+    def currentBranchName = env.BRANCH_NAME
+    if (!currentBranchName) {
+        currentBranchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
     }
     
-    // Obtener el nombre de la rama actual desde el entorno de Jenkins
-    def branchName = env.BRANCH_NAME
-    
-    echo "Nombre de la rama: ${branchName}"
+    // Mostrar el nombre de la rama para depuración
+    echo "Nombre de la rama: ${currentBranchName}"
     
     try {
         timeout(time: 5, unit: 'MINUTES') {
             sh 'echo "Ejecución de las pruebas de calidad de código"'
         }
     } catch (err) {
-        echo 'Timeout mientras se esperaba el analisis de código.'
+        echo 'Timeout reached while waiting for the code quality analysis to complete.'
         if (abortPipeline) {
-            error 'Pipeline terminado por timeout.'
+            error 'Pipeline aborted due to timeout.'
         }
     }
 
+    // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
-        echo 'Fallo de QualityGate.'
-        abortPipelineIfRequired(branchName, abortPipeline)
+        echo 'QualityGate failed.'
+        abortPipelineIfRequired(currentBranchName, abortPipeline)
     } else {
-        echo 'QualityGate exitoso.'
+        echo 'QualityGate passed.'
     }
 }
 
 def abortPipelineIfRequired(String branchName, boolean abortPipeline) {
     if (abortPipeline) {
-        error 'Pipeline terminado por fallo en QualityGate'
+        error 'Pipeline aborted due to QualityGate failure.'
     } else {
         if (branchName == 'master' || branchName.startsWith('hotfix')) {
-            error 'Pipeline terminado por nombre de branch invalido (master o hotfix).'
+            error 'Pipeline aborted due to QualityGate failure on critical branch.'
         }
     }
 }
