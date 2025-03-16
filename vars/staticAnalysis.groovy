@@ -1,7 +1,7 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     try {
         timeout(time: 5, unit: 'MINUTES') {
-            sh 'echo "Ejecución de las pruebas de calidad de código"'
+            bat 'echo "Ejecución de las pruebas de calidad de código"'
         }
     } catch (err) {
         echo 'Timeout reached while waiting for the code quality analysis to complete.'
