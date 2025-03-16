@@ -4,7 +4,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     // Obtener el nombre de la rama actual desde el entorno de Jenkins o manualmente
     def currentBranchName = env.BRANCH_NAME
     if (!currentBranchName) {
-        currentBranchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+        currentBranchName = bat(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
     }
     
     // Mostrar el nombre de la rama para depuración
