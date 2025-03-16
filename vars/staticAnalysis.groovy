@@ -2,7 +2,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     echo "Ejecutando staticAnalysis.groovy"
     
     // Obtener el nombre de la rama actual desde el entorno de Jenkins o manualmente
-    def currentBranchName = env.BRANCH_NAME
+    def currentBranchName = ${env.GIT_BRANCH}
     if (!currentBranchName) {
         currentBranchName = bat(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
     }
