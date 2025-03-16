@@ -6,8 +6,7 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 script {
-                    // Llamada implícita a la función call con los parámetros por defecto
-                    call()
+                    codeQualityAnalysis()
                 }
             }
         }
