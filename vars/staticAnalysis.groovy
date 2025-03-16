@@ -1,5 +1,5 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
-    echo "Ejecutando staticAnalysis.groovy"
+    echo "Ejecutando staticAnalysis"
     
     // Obtener el nombre de la rama actual desde el entorno de Jenkins
     def branchName = env.BRANCH_NAME
