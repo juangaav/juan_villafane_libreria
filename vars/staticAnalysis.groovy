@@ -1,10 +1,15 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     echo "Ejecutando staticAnalysis"
+
+    // Obtener el nombre de la rama actual desde el entorno de Jenkins o manualmente
+    def branchName = env.BRANCH_NAME
+    if (!branchName) {
+        branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+    }
     
     // Obtener el nombre de la rama actual desde el entorno de Jenkins
     def branchName = env.BRANCH_NAME
     
-    // Mostrar el nombre de la rama para depuración
     echo "Nombre de la rama: ${branchName}"
     
     try {
@@ -18,7 +23,6 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
         }
     }
 
-    // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
         echo 'Fallo de QualityGate.'
         abortPipelineIfRequired(branchName, abortPipeline)
