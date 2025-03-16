@@ -1,6 +1,7 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     echo "Ejecutando staticAnalysis.groovy"
-    
+
+    def temp = "${env.GIT_BRANCH.split("/")[1]}"
     def currentBranchName = env.BRANCH_NAME
  
     if (!currentBranchName) {
