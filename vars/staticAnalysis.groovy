@@ -4,7 +4,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     def currentBranch = "${env.GIT_BRANCH.split("/")[1]}"
 
     echo "Rama actual de Git: ${currentBranch}"
-    
+    abortPipelineIfRequired(currentBranch, abortPipeline)
     try {
         timeout(time: 5, unit: 'MINUTES') {
             sh 'echo "Ejecución de las pruebas de calidad de código"'
@@ -20,7 +20,6 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
         echo 'QualityGate fallido.'
-        abortPipelineIfRequired(currentBranch, abortPipeline)
     } else {
         echo 'QualityGate completado exitosamente.'
     }
