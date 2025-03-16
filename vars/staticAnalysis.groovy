@@ -1,10 +1,9 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     echo "Ejecutando staticAnalysis.groovy"
 
-    def temp = "${env.GIT_BRANCH.split("/")[1]}"
+    def currentBranch = "${env.GIT_BRANCH.split("/")[1]}"
 
-    echo "Current Git Branch: ${env.GIT_BRANCH}"
-    echo "Current Git Branch: ${temp}"
+    echo "Current Git Branch: ${currentBranch}"
     
     try {
         timeout(time: 5, unit: 'MINUTES') {
@@ -20,7 +19,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
         echo 'QualityGate failed.'
-        abortPipelineIfRequired(temp, abortPipeline)
+        abortPipelineIfRequired(currentBranch, abortPipeline)
     } else {
         echo 'QualityGate passed.'
     }
