@@ -6,7 +6,7 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 script {
-                    staticAnalysis(true, true)
+                    staticAnalysis(true, false)
                 }
             }
         }
