@@ -17,7 +17,6 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
         }
     }
 
-    // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
         echo 'QualityGate fallido.'
     } else {
@@ -26,7 +25,6 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
 }
 
 def abortPipelineIfRequired(String branchName, boolean abortPipeline) {
-    echo "Rama actual de Git: ${branchName}"
     if (abortPipeline) {
         error 'Pipeline interrumpido debido a fallo de QualityGate.'
         currentBuild.result = 'ABORTED'
