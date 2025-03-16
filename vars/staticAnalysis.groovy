@@ -13,6 +13,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
         echo 'Timeout ocurrido mientras se esperaban pruebas de calidad.'
         if (abortPipeline) {
             error 'Se interrumpe pipeline por timeout.'
+            currentBuild.result = 'ABORTED'
         }
     }
 
@@ -26,11 +27,14 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
 }
 
 def abortPipelineIfRequired(String branchName, boolean abortPipeline) {
+    echo "Rama actual de Git: ${branchName}"
     if (abortPipeline) {
         error 'Pipeline interrumpido debido a fallo de QualityGate.'
+        currentBuild.result = 'ABORTED'
     } else {
         if (branchName == 'main' || branchName.startsWith('hotfix')) {
             error 'Pipeline interrumpido debido a fallo de QualityGate en rama critica.'
+            currentBuild.result = 'ABORTED'
         }
     }
 }
