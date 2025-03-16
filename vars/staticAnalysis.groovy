@@ -3,34 +3,34 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
 
     def currentBranch = "${env.GIT_BRANCH.split("/")[1]}"
 
-    echo "Current Git Branch: ${currentBranch}"
+    echo "Rama actual de Git: ${currentBranch}"
     
     try {
         timeout(time: 5, unit: 'MINUTES') {
             sh 'echo "Ejecución de las pruebas de calidad de código"'
         }
     } catch (err) {
-        echo 'Timeout reached while waiting for the code quality analysis to complete.'
+        echo 'Timeout ocurrido mientras se esperaban pruebas de calidad.'
         if (abortPipeline) {
-            error 'Pipeline aborted due to timeout.'
+            error 'Se interrumpe pipeline por timeout.'
         }
     }
 
     // Simulación de evaluación del QualityGate
     if (qualityGateFail) {
-        echo 'QualityGate failed.'
+        echo 'QualityGate fallido.'
         abortPipelineIfRequired(currentBranch, abortPipeline)
     } else {
-        echo 'QualityGate passed.'
+        echo 'QualityGate completado exitosamente.'
     }
 }
 
 def abortPipelineIfRequired(String branchName, boolean abortPipeline) {
     if (abortPipeline) {
-        error 'Pipeline aborted due to QualityGate failure.'
+        error 'Pipeline interrumpido debido a fallo de QualityGate.'
     } else {
         if (branchName == 'main' || branchName.startsWith('hotfix')) {
-            error 'Pipeline aborted due to QualityGate failure on critical branch.'
+            error 'Pipeline interrumpido debido a fallo de QualityGate en rama critica.'
         }
     }
 }
