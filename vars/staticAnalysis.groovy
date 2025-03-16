@@ -19,6 +19,7 @@ def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
         echo 'QualityGate failed.'
         if (abortPipeline) {
             error 'Pipeline aborted due to QualityGate failure.'
+            abortPipeline: true
         }
     } else {
         echo 'QualityGate passed.'
