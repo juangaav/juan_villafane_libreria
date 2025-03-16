@@ -1,11 +1,11 @@
 def call(boolean qualityGateFail = false, boolean abortPipeline = false) {
     try {
-        timeout(time: 5, unit: 'MINUTES') {
-            bat 'echo "Ejecución de las pruebas de calidad de código"'
-            def scannerHome = tool 'Sonar-scanner'
-            withSonarQubeEnv('Sonar Local') {
-                bat "${scannerHome}/bin/sonar-scanner"
-            }
+        def scannerHome = tool 'Sonar-scanner'
+        withSonarQubeEnv('Sonar Local') {
+            bat "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
         }
     } catch (err) {
         echo 'Timeout reached while waiting for the code quality analysis to complete.'
